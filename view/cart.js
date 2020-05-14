@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native';
 import { Container,FooterTab,Footer, Title, Content,Button,Icon, Left, Right, Body, Text, Card, CardItem } from 'native-base';
 
-import Counter from "react-native-counters"
+import Counter from "./src/components/counter"
+import CounterBtn from "./component/counterBtn"
 
 
 export default class cart extends Component {
@@ -23,8 +24,12 @@ export default class cart extends Component {
         .catch((error) => console.error(error))
     }
 
-    onChange(number, type) {
-      console.log(number, type) // 1, + or -
+    addHarga(harga){
+      this.setState({TotalHarga: this.state.TotalHarga + harga})
+    }
+
+    removeHarga(harga){
+      this.setState({TotalHarga: this.state.TotalHarga - harga})
     }
 
     renderMenu(items){
@@ -36,8 +41,15 @@ export default class cart extends Component {
                   <Text>Rp.{item.harga}</Text>
                 </Body>
                   <Counter start={0} max={100}
-                    onChange={(count,type) => {console.log(count,type)}}
+                    onChange={(len,type) => {
+                      if(type == "+"){
+                        this.addHarga(parseInt(item.harga))
+                      } else {
+                        this.removeHarga(parseInt(item.harga))
+                      }
+                    }}
                   />
+                  {/* <CounterBtn/> */}
             </CardItem>
           </Card>
       );
